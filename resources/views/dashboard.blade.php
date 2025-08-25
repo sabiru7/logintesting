@@ -9,17 +9,17 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Tailwind (pakai prefix supaya tidak bentrok Bootstrap) -->
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         darkMode: 'class',
-        prefix: 'tw-',
+        prefix: 'tw-', // prefix biar gak bentrok sama Bootstrap
         theme: {
           extend: {}
         }
       }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="tw-bg-gradient-to-br tw-from-slate-50 tw-to-slate-100">
 
@@ -37,7 +37,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a class="nav-link active" href="{{ route('dashboard') }}">Dashboard</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Laporan</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Pengaturan</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('profile') }}">Profil</a></li>
           </ul>
 
           <!-- Profil singkat -->
@@ -60,7 +60,7 @@
     <main class="container tw-py-6">
       <div class="row">
         
-        <!-- Sidebar (opsional) -->
+        <!-- Sidebar -->
         <aside class="col-md-3 mb-4">
           <div class="list-group tw-shadow-sm tw-rounded-lg">
             <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action active">🏠 Dashboard</a>
@@ -114,7 +114,6 @@
               </div>
             </div>
           </div>
-
         </section>
       </div>
     </main>
