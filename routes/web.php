@@ -41,7 +41,23 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/profile', function () {
-        return view('profile');
-    })->name('profile');
+    
+});
+//profile
+use App\Http\Controllers\ProfileController;
+
+Route::middleware(['auth'])->group(function () {
+    // Tampilkan profil
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+    // Halaman pengaturan
+    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('pengaturan');
+
+    // Update profil (nama + avatar)
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Update avatar saja (opsional)
+    Route::put('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar.update');
+    Route::get('/pengaturan', [ProfileController::class, 'settings'])->name('pengaturan');
+
 });
