@@ -1,124 +1,200 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | MasyaAllah Qur’an Digital</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        prefix: 'tw-', // prefix biar gak bentrok sama Bootstrap
-        theme: {
-          extend: {}
-        }
-      }
-    </script>
+  <style>
+    body {
+      background: linear-gradient(135deg,#065f46,#15803d,#16a34a);
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      color: #1f2937;
+      display: flex;
+    }
+
+    /* === SIDEBAR (sama seperti sebelumnya) === */
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background: #064e3b;
+      padding: 1.5rem 1rem;
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+    .sidebar .brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #facc15;
+      margin-bottom: 2rem;
+      display: block;
+      text-decoration: none;
+    }
+    .sidebar .nav-link {
+      color: #e0f2f1;
+      font-weight: 500;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: block;
+      transition: 0.3s;
+    }
+    .sidebar .nav-link:hover {
+      background: #065f46;
+      color: #fff;
+    }
+    .sidebar .nav-link.active {
+      background: #f97316;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* === CONTENT === */
+    .content {
+      margin-left: 250px;
+      padding: 2rem;
+      flex-grow: 1;
+    }
+
+    /* === CARD === */
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+      border-top: 4px solid #d97706;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-in-out;
+    }
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* INFO BOX */
+    .info-box {
+      background: linear-gradient(135deg,#fef9c3,#fde68a);
+      border:1px solid #fcd34d;
+      border-radius:12px;
+      padding:1.2rem;
+      text-align:center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor:pointer;
+    }
+    .info-box:hover { transform: translateY(-6px); box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+    .info-box-icon { font-size:1.8rem; color:#d97706; margin-bottom:0.5rem; }
+
+    /* BUTTONS */
+    .btn-primary { background-color:#d97706; border:none; }
+    .btn-primary:hover { background-color:#b45309; }
+    .btn-success { background-color:#16a34a; border:none; }
+    .btn-success:hover { background-color:#15803d; }
+    .btn-warning { background-color:#facc15; border:none; color:#000; }
+    .btn-warning:hover { background-color:#eab308; color:#000; }
+  </style>
 </head>
-<body class="tw-bg-gradient-to-br tw-from-slate-50 tw-to-slate-100">
+<body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom tw-shadow-sm">
-      <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="{{ route('dashboard') }}">MyApp</a>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <a href="{{ route('dashboard') }}" class="brand">🌙 MasyaAllah</a>
+  <nav>
+    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">🏠 Dashboard</a>
+    <a href="{{ route('api.index') }}" class="nav-link {{ request()->routeIs('api.index') ? 'active' : '' }}">📖 Al-Qur'an</a>
+    <a href="{{ route('profile') }}" class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}">⚙️ Pengaturan</a>
+  </nav>
+</div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<!-- CONTENT -->
+<div class="content">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold">Dashboard</h4>
+    <div class="d-flex align-items-center gap-3 small">
+      Assalamu’alaikum, <span class="fw-semibold text-warning">{{ auth()->user()->name }}</span> ✨
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+      </form>
+    </div>
+  </div>
 
-        <div id="mainNav" class="collapse navbar-collapse">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link active" href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Laporan</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('profile') }}">Profil</a></li>
-          </ul>
+  <!-- Welcome -->
+  <div class="card p-4 text-center">
+    <h1 class="fw-bold text-warning">🌙 MasyaAllah, {{ auth()->user()->name }}</h1>
+    <p class="text-muted mt-2">Selamat datang kembali 👋 semoga Ramadhan ini penuh berkah ✨</p>
+  </div>
 
-          <!-- Profil singkat -->
-          <div class="d-flex align-items-center gap-3">
-            <div class="tw-hidden md:tw-block tw-text-sm tw-text-slate-600">
-              Hai, <span class="tw-font-semibold tw-text-slate-900">{{ auth()->user()->name }}</span>
-            </div>
-
-            <!-- Logout -->
-            <form method="POST" action="{{ route('logout') }}">
-              @csrf
-              <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
-            </form>
-          </div>
-        </div>
+  <!-- Statistik -->
+  <div class="row mt-4 g-3">
+    <div class="col-md-4">
+      <div class="info-box">
+        <div class="info-box-icon">✅</div>
+        <p class="small text-muted mb-1">Status</p>
+        <p class="fw-semibold">Aktif</p>
       </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="container tw-py-6">
-      <div class="row">
-        
-        <!-- Sidebar -->
-        <aside class="col-md-3 mb-4">
-          <div class="list-group tw-shadow-sm tw-rounded-lg">
-            <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action active">🏠 Dashboard</a>
-            <a href="#" class="list-group-item list-group-item-action">📊 Statistik</a>
-            <a href="#" class="list-group-item list-group-item-action">📁 Data</a>
-            <a href="{{ route('pengaturan') }}" class="list-group-item list-group-item-action">⚙️ Pengaturan</a>
-          </div>
-        </aside>
-
-        <!-- Konten utama -->
-        <section class="col-md-9">
-          <div class="card tw-shadow-sm tw-rounded-xl mb-4">
-            <div class="card-body tw-p-6">
-              <h1 class="tw-text-2xl tw-font-bold tw-text-slate-900">
-                Halo, {{ auth()->user()->name }}
-              </h1>
-              <p class="tw-mt-1 tw-text-slate-600">Selamat datang kembali 👋</p>
-            </div>
-          </div>
-
-          <!-- Statistik -->
-          <div class="row g-3 mb-4">
-            <div class="col-md-4">
-              <div class="tw-rounded-lg tw-bg-white tw-shadow tw-p-4 border">
-                <p class="tw-text-sm tw-text-slate-500">Status</p>
-                <p class="tw-text-lg tw-font-semibold">Aktif</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="tw-rounded-lg tw-bg-white tw-shadow tw-p-4 border">
-                <p class="tw-text-sm tw-text-slate-500">Notifikasi</p>
-                <p class="tw-text-lg tw-font-semibold">5</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="tw-rounded-lg tw-bg-white tw-shadow tw-p-4 border">
-                <p class="tw-text-sm tw-text-slate-500">Terakhir Login</p>
-                <p class="tw-text-lg tw-font-semibold">{{ now()->format('d M Y H:i') }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Aksi Cepat -->
-          <div class="card tw-shadow-sm tw-rounded-xl">
-            <div class="card-body">
-              <h5 class="fw-semibold">Aksi Cepat</h5>
-              <div class="d-flex flex-wrap gap-2 tw-mt-3">
-                <a href="#" class="btn btn-primary">Tambah Data</a>
-                <a href="#" class="btn btn-success">Lihat Laporan</a>
-                <a href="{{ route('pengaturan') }}" class="btn btn-warning">Pengaturan</a>
-              </div>
-            </div>
-          </div>
-        </section>
+    </div>
+    <div class="col-md-4">
+      <div class="info-box" data-counter="7">
+        <div class="info-box-icon">🔔</div>
+        <p class="small text-muted mb-1">Notifikasi</p>
+        <p class="fw-semibold counter">0</p>
       </div>
-    </main>
+    </div>
+    <div class="col-md-4">
+      <div class="info-box">
+        <div class="info-box-icon">⏳</div>
+        <p class="small text-muted mb-1">Terakhir Login</p>
+        <p class="fw-semibold">{{ now()->format('d M Y H:i') }}</p>
+      </div>
+    </div>
+  </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Progress Membaca Qur’an -->
+  <div class="card p-4 mt-4">
+    <h5 class="fw-semibold mb-3">📖 Histori Qur’an</h5>
+    <p class="mb-2">Surah terakhir yang kamu baca: <span class="fw-bold text-success">Al-Baqarah : 25</span></p>
+    <div class="progress" style="height: 20px;">
+      <div class="progress-bar bg-warning" role="progressbar" style="width: 40%">40%</div>
+    </div>
+  </div>
+
+  <!-- Aksi Cepat -->
+  <div class="card p-4 mt-4 text-center">
+    <h5 class="fw-semibold mb-3">⚡ Aksi Cepat</h5>
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+      <a href="#" class="btn btn-primary">📥 Tambah Data</a>
+      <a href="#" class="btn btn-success">📊 Lihat Laporan</a>
+      <a href="{{ route('profile') }}" class="btn btn-warning">⚙️ Pengaturan</a>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.card').forEach((card, index) => {
+    setTimeout(() => { card.classList.add('show'); }, index * 150);
+  });
+  // Counter
+  document.querySelectorAll('.counter').forEach(counter => {
+    let target = +counter.parentElement.dataset.counter;
+    let count = 0;
+    let step = target > 0 ? Math.ceil(target/50) : 1;
+    let interval = setInterval(() => {
+      count += step;
+      if(count >= target){ count = target; clearInterval(interval); }
+      counter.textContent = count;
+    }, 30);
+  });
+});
+</script>
 </body>
 </html>

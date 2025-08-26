@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication</title>
+    <title>Autentikasi | Al-Qur'an Digital</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tailwind (untuk animasi & efek kecil) -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -17,35 +17,37 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fadeIn {
-            animation: fadeIn 0.8s ease-in-out;
+            animation: fadeIn 0.9s ease-in-out;
         }
 
-        /* Background gradasi */
+        /* Background gradasi Islami */
         body {
-            background: linear-gradient(135deg, #3b82f6, #6366f1, #ec4899);
+            background: linear-gradient(135deg, #16a34a, #15803d, #065f46);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* Rapikan tab biar lebih halus */
+        /* Tabs Islami */
         .nav-tabs .nav-link {
             border: none;
             border-bottom: 2px solid transparent;
-            color: #4b5563;
+            color: #374151;
             font-weight: 600;
         }
         .nav-tabs .nav-link.active {
-            color: #2563eb;
-            border-color: #2563eb;
+            color: #16a34a;
+            border-color: #16a34a;
         }
     </style>
 </head>
 <body>
 
     <div class="bg-white shadow-2xl rounded-3 p-4 w-100 animate-fadeIn" style="max-width: 500px;">
-        <h2 class="text-center fw-bold text-gray-700 mb-4">🔑 Authentication</h2>
+        <h2 class="text-center fw-bold text-success mb-1">📖 Al-Qur'an Digital</h2>
+        <p class="text-center text-gray-500 mb-4">Silakan Login atau Register untuk melanjutkan</p>
 
         <!-- Pesan sukses/error -->
         @if(session('success'))
@@ -80,7 +82,7 @@
                         <label class="form-label fw-semibold">Password</label>
                         <input type="password" name="password" class="form-control rounded-3 shadow-sm" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 rounded-3 py-2 hover:scale-105 transition-transform duration-200">Login</button>
+                    <button type="submit" class="btn btn-success w-100 rounded-3 py-2 hover:scale-105 transition-transform duration-200">Login</button>
                 </form>
             </div>
 
