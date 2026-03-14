@@ -159,9 +159,9 @@
   <!-- Progress Membaca Qur’an -->
   <div class="card p-4 mt-4">
     <h5 class="fw-semibold mb-3">📖 Histori Qur’an</h5>
-    <p class="mb-2">Surah terakhir yang kamu baca: <span class="fw-bold text-success">Al-Baqarah : 25</span></p>
+    <p class="mb-2">Surah terakhir yang kamu baca: <span class="fw-bold text-success">Al-Baqarah : 10</span></p>
     <div class="progress" style="height: 20px;">
-      <div class="progress-bar bg-warning" role="progressbar" style="width: 40%">40%</div>
+      <div class="progress-bar bg-warning" role="progressbar" style="width: 5%">5%</div>
     </div>
   </div>
 
